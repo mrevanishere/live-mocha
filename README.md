@@ -1,6 +1,6 @@
 # jp-captain
 (WIP) For getting information of Japanese Kanji characters by hovering or by screenshot.  
-AKA JP-CapturetoEN.
+AKA JP-CapToEN.
 
 # Plan:
 
