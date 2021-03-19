@@ -1,8 +1,8 @@
-import React, { useDebugValue } from 'react'
+import React, { useDebugValue, useState } from 'react'
 
-
+// Part a/b components
 const Header = (props) => {
-  console.log("Header called")
+  //console.log("Header called")
   return (
     <>
       <h1>{props.course}</h1>
@@ -11,7 +11,7 @@ const Header = (props) => {
 }
 
 const Part = (props) => {
-  console.log("Part component called")
+  //console.log("Part component called")
   return (
     <p>
       Part {props.number}: {props.part.name} <br></br>
@@ -21,10 +21,10 @@ const Part = (props) => {
 }
 
 const Content = (props) => {
-  console.log("Content component called")
+  //console.log("Content component called")
   // console.log(props.parts)
-  console.log(props.parts)
-  console.log(props.parts[1])
+  //console.log(props.parts)
+  //console.log(props.parts[1])
   return (
     <div>
       <Part number={1} part={props.parts[0]} />
@@ -35,7 +35,7 @@ const Content = (props) => {
 }
 
 const Total = (props) => {
-  console.log("Total component called") 
+  //console.log("Total component called") 
   return (
     <p>
       Number of exercises: 
@@ -45,6 +45,30 @@ const Total = (props) => {
         props.parts[2].exercises
       }
     </p>
+  )
+}
+// Part c components
+const Display = ({counter}) => <div>{counter}</div>
+const GenericButton = ({ handleClick, text }) => {
+  return (
+    <button onClick={handleClick}>
+      {text}
+    </button>
+  )
+}
+// Part d components
+const History = (props) => {
+  if (props.allClicks.length === 0) {
+    return (
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
+  }
+  return (
+    <div>
+      button press history: {props.allClicks.join(' ')}
+    </div>
   )
 }
 
@@ -57,6 +81,48 @@ const App = () => {
                   'State of a component']
   const exercises = [10,7,14]
   */
+ // Part d
+ const [clicks, setClicks] = useState({
+   left: 0, right: 0
+ })
+ const handleLeftSideClick = () => {
+  setClicks({...clicks, left: clicks.left + 1})
+}
+const handleRightSideClick = () => {
+  setClicks({...clicks, right: clicks.right + 1})
+}
+
+
+ const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+ const [allClicks, setAll] = useState([])
+
+ const handleLeftClick = () => {
+   setAll(allClicks.concat('L'))
+   setLeft(left + 1)
+ }
+ const handleRightClick = () => {
+  setAll(allClicks.concat('R'))
+  setRight(right + 1)
+}
+
+const setToValue = (newValue) => {
+  setValue(newValue)
+}
+
+ // Part c
+ const [ counter, setCounter ] = useState(0)
+
+ // setTimeout(() => setCounter(counter+1, 1000))
+
+ // console.log('rendering...', counter)
+
+ const output_clicked = () => console.log('clicked')
+ const increaseByOne = () => setCounter(counter + 1)
+ const decreaseByOne = () => setCounter(counter - 1)
+ const setToZero = () => setCounter(0)
+
+ // Part a/b
  const course = {
    name: 'Half Stack Application Development',
    parts: [
@@ -75,16 +141,46 @@ const App = () => {
     ]
   }
 
-  console.log("App Component:")
+  //console.log("App Component:")
   //console.log(parts)
   //console.log(parts[0])
   //console.log(typeof(parts[0]))
   // Components
   return (
     <>
-      <Header course={course.name} />
-      <Content parts={course.parts}/>
-      <Total parts={course.parts}/>
+      <div>
+        {clicks.left}
+        <button onClick={handleLeftSideClick}>left</button>
+        <button onClick={handleRightSideClick}>right</button>
+        {clicks.right}
+        <hr></hr>
+        {left}
+        <GenericButton handleClick={handleLeftClick} text='left' />
+        <GenericButton handleClick={handleRightClick} text='right' />
+        {right}
+        <History allClicks={allClicks}/>
+        <hr></hr>
+      </div>
+      <div>
+        <Display counter={counter}/>
+        <GenericButton 
+          handleClick={increaseByOne} 
+          text='plus'
+        />
+        <GenericButton 
+          handleClick={setToZero} 
+          text='zero'
+        />
+        <GenericButton 
+          handleClick={decreaseByOne} 
+          text='minus'
+        />
+      </div>
+      <div>
+        <Header course={course.name} />
+        <Content parts={course.parts}/>
+        <Total parts={course.parts}/>
+      </div>
     </>
   )
 }
