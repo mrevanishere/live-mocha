@@ -106,9 +106,6 @@ const handleRightSideClick = () => {
   setRight(right + 1)
 }
 
-const setToValue = (newValue) => {
-  setValue(newValue)
-}
 
  // Part c
  const [ counter, setCounter ] = useState(0)
